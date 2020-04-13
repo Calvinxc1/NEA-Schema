@@ -1,5 +1,6 @@
 from datetime import datetime as dt
 from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql import \
     DATETIME as DateTime, \
     INTEGER as Integer, \
@@ -8,7 +9,7 @@ from sqlalchemy.dialects.mysql import \
 from ... import Base
 
 class Kills(Base):
-    __tablename__ = 'map_Kills'
+    __tablename__ = 'uni_Kills'
     
     ## Columns
     record_time = Column(DateTime, primary_key=True, autoincrement=False)
