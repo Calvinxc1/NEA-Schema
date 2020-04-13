@@ -27,7 +27,7 @@ class Jumps(Base):
             cls(**{
                 **data,
                 'record_time': dt.strptime(esi_return.headers['Last-Modified'], '%a, %d %b %Y %H:%M:%S %Z'),
-                'etag': esi_return.headers.get('Etag')[1:-1],
+                'etag': esi_return.headers.get('Etag'),
             }) for data in data_items
         ]
         return class_obj

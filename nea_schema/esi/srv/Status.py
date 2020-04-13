@@ -27,6 +27,6 @@ class Status(Base):
             **data,
             'start_time': dt.strptime(data['start_time'], '%Y-%m-%dT%H:%M:%SZ'),
             'record_time': dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z'),
-            'etag': esi_return.headers.get('Etag')[1:-1],
+            'etag': esi_return.headers.get('Etag'),
         })]
         return class_obj
