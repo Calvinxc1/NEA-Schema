@@ -1,7 +1,9 @@
 from sqlalchemy import create_engine
 
 from . import Base
-from .esi.status import *
+
+from .esi.srv import *
+
 from .sde.bp import *
 from .sde.inv import *
 from .sde.map import *
