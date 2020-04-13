@@ -3,6 +3,7 @@ from sqlalchemy import create_engine
 from . import Base
 
 from .esi.srv import *
+from .esi.uni import *
 
 from .sde.bp import *
 from .sde.inv import *

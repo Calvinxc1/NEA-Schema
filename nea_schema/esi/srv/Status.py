@@ -1,10 +1,11 @@
 from datetime import datetime as dt
 from sqlalchemy import Column
 from sqlalchemy.dialects.mysql import \
+    BOOLEAN as Boolean, \
     DATETIME as DateTime, \
     INTEGER as Integer, \
-    TINYTEXT as TinyText, \
-    BOOLEAN as Boolean
+    TINYTEXT as TinyText
+    
 
 from ... import Base
 
