@@ -1,10 +1,12 @@
 from datetime import datetime as dt
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.dialects.mysql import DATETIME as DateTime, \
-    INTEGER as Integer, \
-    BOOLEAN as Boolean, \
+from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.mysql import \
     BIGINT as BigInt, \
+    BOOLEAN as Boolean, \
+    DATETIME as DateTime, \
     DOUBLE as Double, \
+    INTEGER as Integer, \
     TINYTEXT as TinyText
 
 from ... import Base
@@ -14,6 +16,7 @@ class Order(Base):
     
     ## Columns
     record_time = Column(DateTime)
+    etag = Column(TinyText)
     order_id = Column(BigInt(unsigned=True), primary_key=True, autoincrement=False)
     region_id = Column(Integer(unsigned=True), ForeignKey('map_Region.region_id'))
     type_id = Column(Integer(unsigned=True), ForeignKey('inv_Type.type_id'))
@@ -36,6 +39,7 @@ class Order(Base):
                 **data,
                 'issued': dt.strptime(data['issued'], '%Y-%m-%dT%H:%M:%SZ'),
                 'record_time': dt.strptime(esi_return.headers['Last-Modified'], '%a, %d %b %Y %H:%M:%S %Z'),
+                'etag': esi_return.headers.get('Etag'),
             }) for data in data_items
         ]
         return class_obj
