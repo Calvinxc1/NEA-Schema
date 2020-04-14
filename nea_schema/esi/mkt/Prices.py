@@ -20,7 +20,7 @@ class Prices(Base):
     average_price = Column(Double(unsigned=True))
     
     ## Relationships
-    system = relationship('Type')
+    type = relationship('Type')
 
     @classmethod
     def esi_parse(cls, esi_return):

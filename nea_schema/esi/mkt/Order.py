@@ -18,7 +18,6 @@ class Order(Base):
     record_time = Column(DateTime)
     etag = Column(TinyText)
     order_id = Column(BigInt(unsigned=True), primary_key=True, autoincrement=False)
-    region_id = Column(Integer(unsigned=True), ForeignKey('map_Region.region_id'))
     type_id = Column(Integer(unsigned=True), ForeignKey('inv_Type.type_id'))
     system_id = Column(Integer(unsigned=True), ForeignKey('map_System.system_id'))
     location_id = Column(BigInt(unsigned=True))
@@ -30,6 +29,10 @@ class Order(Base):
     volume_remain = Column(Integer(unsigned=True))
     volume_total = Column(Integer(unsigned=True))
     min_volume = Column(Integer(unsigned=True))
+    
+    ## Relationships
+    type = relationship('Type')
+    system = relationship('System')
 
     @classmethod
     def esi_parse(cls, esi_return):
