@@ -36,6 +36,12 @@ class MarketHist(Base):
                 **data,
                 'record_date': dt.strptime(data.pop('date'), '%Y-%m-%d'),
                 'etag': esi_return.headers.get('Etag'),
+                'region_id': int(esi_return.url.split('/')[5]),
+                'type_id': int([
+                    param.split('=')[1] for param
+                    in esi_return.url.split('?')[1].split('&')
+                    if param.startswith('type_id=')
+                ][0]),
             }) for data in data_items
         ]
         return class_obj
