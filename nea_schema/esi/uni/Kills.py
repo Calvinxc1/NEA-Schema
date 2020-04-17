@@ -9,6 +9,28 @@ from sqlalchemy.dialects.mysql import \
 from ... import Base
 
 class Kills(Base):
+    """ Schema for the uni_Kills table
+    
+    Columns
+    -------
+    record_time: DateTime, Primary Key
+        The cache time on the ESI return.
+    etag: TinyText
+        The ETag on the ESI return.
+    system_id: Unsigned Integer, Primary Key
+        The region that the data is for.
+    npc_kills: Unsigned Integer
+        The number of NPC kills that have happened within the past hour, given record_time and system_id.
+    ship_kills: Unsigned Integer
+        The number of player ship kills that have happened within the past hour, given record_time and system_id.
+    pod_kills: Unsigned Integer
+        The number of player pod kills that have happened within the past hour, given record_time and system_id.
+        
+    Relationships
+    -------------
+    system: Kills.system_id <> System.system_id
+    """
+    
     __tablename__ = 'uni_Kills'
     
     ## Columns
@@ -24,6 +46,21 @@ class Kills(Base):
 
     @classmethod
     def esi_parse(cls, esi_return):
+        """ Parses and returns an ESI record
+        
+        Parses through a Requests return, returning a copy of the initialized class.
+        
+        Parameters
+        ----------
+        esi_return: Requests return
+            A Requests return from an ESI endpoint.
+            
+        Returns
+        -------
+        class_obj: class
+            An initialized copy of the class.
+        """
+        
         data_items = esi_return.json()
         class_obj = [
             cls(**{

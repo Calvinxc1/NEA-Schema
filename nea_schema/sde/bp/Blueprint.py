@@ -1,6 +1,7 @@
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.dialects.mysql import INTEGER as Integer
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.mysql import \
+    INTEGER as Integer
 
 from ... import Base
 
@@ -18,6 +19,21 @@ class Blueprint(Base):
     
     @classmethod
     def sde_parse(cls, sde_record):
+        """ Parses and returns an SDE record.
+        
+        Parses through a PyYAML processed SDE record, returning a copy of the initialized class.
+        
+        Parameters
+        ----------
+        sde_record: dict
+            Dictionary of PyYAML parsed SDE record.
+            
+        Returns
+        -------
+        sde_obj: class
+            An initialized copy of the class.
+        """
+        
         sde_obj = cls(
             blueprint_id=sde_record.get('blueprintID'),
             type_id=sde_record.get('blueprintTypeID'),

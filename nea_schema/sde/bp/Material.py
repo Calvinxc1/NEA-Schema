@@ -1,6 +1,8 @@
 from sqlalchemy import Column, ForeignKey, ForeignKeyConstraint
-from sqlalchemy.dialects.mysql import INTEGER as Integer, VARCHAR as VarChar
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.mysql import \
+    INTEGER as Integer, \
+    VARCHAR as VarChar
 
 from ... import Base
 from . import Activity
@@ -30,6 +32,21 @@ class Material(Base):
     
     @classmethod
     def sde_parse(cls, sde_record):
+        """ Parses and returns an SDE record.
+        
+        Parses through a PyYAML processed SDE record, returning a copy of the initialized class.
+        
+        Parameters
+        ----------
+        sde_record: dict
+            Dictionary of PyYAML parsed SDE record.
+            
+        Returns
+        -------
+        sde_obj: class
+            An initialized copy of the class.
+        """
+        
         sde_obj = cls(
             blueprint_id=sde_record.get('blueprintID'),
             activity_type=sde_record.get('activity_type'),
