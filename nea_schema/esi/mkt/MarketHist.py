@@ -1,4 +1,4 @@
-from datetime import datetime as dt
+from datetime import datetime as dt, timedelta as td
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql import \
@@ -58,7 +58,7 @@ class MarketHist(Base):
     region = relationship('Region')
 
     @classmethod
-    def esi_parse(cls, esi_return):
+    def esi_parse(cls, esi_return, days_back=5):
         """ Parses and returns an ESI record
         
         Parses through a Requests return, returning a copy of the initialized class.
@@ -67,6 +67,8 @@ class MarketHist(Base):
         ----------
         esi_return: Requests return
             A Requests return from an ESI endpoint.
+        days_back: int (optional, default 5)
+            How many days back from the last modified date to accept records for.
             
         Returns
         -------
@@ -74,11 +76,16 @@ class MarketHist(Base):
             An initialized copy of the class.
         """
         
+        class_obj = []
+        current_date = dt.strptime(esi_return.headers['Last-Modified'], '%a, %d %b %Y %H:%M:%S %Z')
+        earliest_date = current_date - td(days=days_back+1)
         data_items = esi_return.json()
-        class_obj = [
-            cls(**{
+        for data in data_items:
+            record_date = dt.strptime(data.pop('date'), '%Y-%m-%d')
+            if (record_date - earliest_date).days < 0: continue
+            class_obj.append(cls(**{
                 **data,
-                'record_date': dt.strptime(data.pop('date'), '%Y-%m-%d'),
+                'record_date': record_date,
                 'etag': esi_return.headers.get('Etag'),
                 'region_id': int(esi_return.url.split('/')[5]),
                 'type_id': int([
@@ -86,6 +93,6 @@ class MarketHist(Base):
                     in esi_return.url.split('?')[1].split('&')
                     if param.startswith('type_id=')
                 ][0]),
-            }) for data in data_items
-        ]
+            }))
+            
         return class_obj
