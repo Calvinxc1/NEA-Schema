@@ -10,30 +10,28 @@ class Region(Base):
     
     Columns
     -------
-    region_id: Integer, Unsigned - Primary Key
-        The unique identifier for the region
-    region_name: Aliased from ItemName.item_name
-        The name of the region
-    name_id: Integer, Unsigned
-        Name ID number
-    desc_id: Integer, Unsigned
-        Description ID number
-    faction_id: Integer, Unsigned
-        Faction ID number
-    nebula: Integer, Unsigned
-        Unique nebula ID
-    wormhole_class_id: Integer, Unsigned
-        Wormhole Class ID
-    min_x/y/z: Double, Signed
-        XYZ vector for the region's min coordinates in the universe frame
-    center_x/y/z: Double, Signed
-        XYZ vector for the region's origin coordinates in the universe frame
-    max_x/y/z: Double, Signed
-        XYZ vector for the region's max coordinates in the universe frame
+    region_id: Unsigned Integer, Primary Key
+        The unique identifier for the region.
+    name_id: Unsigned Integer
+        Name ID number.
+    desc_id: Unsigned Integer
+        Description ID number.
+    faction_id: Unsigned Integer
+        Faction ID number.
+    nebula: Unsigned Integer
+        Unique nebula ID.
+    wormhole_class_id: Unsigned Integer
+        Wormhole Class ID.
+    min_x/y/z: Signed Double
+        XYZ vector for the region's min coordinates in the universe frame.
+    center_x/y/z: Signed Double
+        XYZ vector for the region's origin coordinates in the universe frame.
+    max_x/y/z: Signed Double
+        XYZ vector for the region's max coordinates in the universe frame.
         
     Relationships
     -------------
-    item_name: Region.region_id <> ItemName.item_id
+    name: Region.region_id <> Name.item_id
     constellation: Region.region_id <> Constellation.region_id
     """
     
@@ -59,9 +57,6 @@ class Region(Base):
     ## Relationships
     name = relationship('Name')
     constellation = relationship('Constellation', back_populates='region')
-    
-    ## Aliased Columns
-    region_name = association_proxy('item_name', 'item_name')
     
     @classmethod
     def sde_parse(cls, sde_record):

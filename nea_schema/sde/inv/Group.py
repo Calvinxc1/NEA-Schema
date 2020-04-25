@@ -1,10 +1,42 @@
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.dialects.mysql import INTEGER as Integer, TINYTEXT as TinyText, BOOLEAN as Boolean
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.mysql import \
+    BOOLEAN as Boolean, \
+    INTEGER as Integer, \
+    TINYTEXT as TinyText
 
 from ... import Base
 
 class Group(Base):
+    """ Schema for the inv_Group table
+    
+    Columns
+    -------
+    group_id: Unsigned Integer, Primary Key
+        Unique identifier for the group.
+    group_name: Tiny Text
+        Name of the group.
+    category_id: Unsigned Integer
+        Category that the group is in.
+    icon_id: Unsigned Integer
+        Icon for the group.
+    anchorable: Boolean
+        ???
+    anchored: Boolean
+        ???
+    fittable_non_singleton: Boolean
+        ???
+    published: Boolean
+        Whether or not the category is published in the game.
+    use_base_price: Boolean
+        ???
+        
+    Relationships
+    -------------
+    category: Group.category_id <> Category.category_id
+    type: Group.group_id <> Type.group_id
+    """
+    
     __tablename__ = 'inv_Group'
     
     ## Columns
@@ -24,6 +56,21 @@ class Group(Base):
 
     @classmethod
     def sde_parse(cls, sde_record):
+        """ Parses and returns an SDE record.
+        
+        Parses through a PyYAML processed SDE record, returning a copy of the initialized class.
+        
+        Parameters
+        ----------
+        sde_record: dict
+            Dictionary of PyYAML parsed SDE record.
+            
+        Returns
+        -------
+        sde_obj: class
+            An initialized copy of the class.
+        """
+        
         sde_obj = cls(
             group_id=sde_record.get('groupID'),
             group_name=sde_record.get('name', {}).get('en'),
