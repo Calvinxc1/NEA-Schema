@@ -12,8 +12,6 @@ class Region(Base):
     -------
     region_id: Unsigned Integer, Primary Key
         The unique identifier for the region.
-    region_name: Aliased from ItemName.item_name
-        The name of the region.
     name_id: Unsigned Integer
         Name ID number.
     desc_id: Unsigned Integer
@@ -59,9 +57,6 @@ class Region(Base):
     ## Relationships
     name = relationship('Name')
     constellation = relationship('Constellation', back_populates='region')
-    
-    ## Aliased Columns
-    region_name = association_proxy('item_name', 'item_name')
     
     @classmethod
     def sde_parse(cls, sde_record):

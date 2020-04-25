@@ -80,6 +80,9 @@ class MarketHist(Base):
         current_date = dt.strptime(esi_return.headers['Last-Modified'], '%a, %d %b %Y %H:%M:%S %Z')
         earliest_date = current_date - td(days=days_back+1)
         data_items = esi_return.json()
+        class_obj = [
+            
+        ]
         for data in data_items:
             record_date = dt.strptime(data.pop('date'), '%Y-%m-%d')
             if (record_date - earliest_date).days < 0: continue
