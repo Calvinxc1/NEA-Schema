@@ -5,6 +5,7 @@ from . import Base
 from .esi.srv import *
 from .esi.uni import *
 from .esi.mkt import *
+from .esi.corp import *
 
 from .sde.bp import *
 from .sde.inv import *
