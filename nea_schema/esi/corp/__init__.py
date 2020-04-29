@@ -1,1 +1,1 @@
-from .Blueprint import Blueprint
+from .CorpBlueprint import CorpBlueprint
