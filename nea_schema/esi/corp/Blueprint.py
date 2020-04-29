@@ -1,5 +1,6 @@
 from datetime import datetime as dt
-from sqlalchemy import Column
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql import \
     BIGINT as BigInt, \
     DATETIME as DateTime, \
