@@ -14,7 +14,9 @@ setuptools.setup(
     url='https://github.com/Calvinxc1/NEA-Schema',
     packages=setuptools.find_packages(),
     install_requires=[
-        'sqlalchemy >= 1.3, <2',
+        'formencode >= 1.3, < 2',
+        'ming >= 0.9, < 1',
+        'sqlalchemy >= 1.3, < 2',
     ],
     classifiers=[
         'Programming Language :: Python :: 3',
@@ -22,5 +24,5 @@ setuptools.setup(
         'Operating System :: OS Independent',
         'Development Status :: 2 - Pre-Alpha',
     ],
-    python_requires='>= 3.5',
+    python_requires='>= 3.6',
 )
