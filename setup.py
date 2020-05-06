@@ -14,7 +14,8 @@ setuptools.setup(
     url='https://github.com/Calvinxc1/NEA-Schema',
     packages=setuptools.find_packages(),
     install_requires=[
-        'sqlalchemy >= 1.3, <2',
+        'ming >= 0.9, < 1',
+        'sqlalchemy >= 1.3, < 2',
     ],
     classifiers=[
         'Programming Language :: Python :: 3',
