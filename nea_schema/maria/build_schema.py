@@ -7,6 +7,8 @@ from .esi.uni import *
 from .esi.mkt import *
 from .esi.corp import *
 
+from .nea.mkt import *
+
 from .sde.bp import *
 from .sde.inv import *
 from .sde.map import *
