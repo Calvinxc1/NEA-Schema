@@ -68,7 +68,7 @@ class Structure(Base):
         class_obj = [cls(
                 record_time=dt.strptime(esi_return.headers['Last-Modified'], '%a, %d %b %Y %H:%M:%S %Z'),
                 etag=esi_return.headers.get('Etag'),
-                structure_id=int(esi_return.url.split('/')[-1]),
+                structure_id=int(esi_return.url.split('?')[0].split('/')[-1]),
                 structure_name=data_items['name'],
                 owner_id=data_items['owner_id'],
                 system_id=data_items['solar_system_id'],
