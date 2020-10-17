@@ -4,11 +4,11 @@ from ming.odm import ThreadLocalODMSession, MappedClass, FieldProperty
 class Model(MappedClass):
     class __mongometa__:
         session = ThreadLocalODMSession.by_name('NewEdenAnalytics')
-        name = 'Models'
+        name = 'Model'
 
     _id = FieldProperty(schema.ObjectId)
-    model_name = FieldProperty(schema.String(required=True))
+    model_type = FieldProperty(schema.String(required=True))
     params = FieldProperty(schema.Array(schema.Object({
-        'name': schema.String(required=True),
-        'value': schema.Anything(required=True),
-    }), required=False))
+        'key': schema.String(required=True),
+        'val': schema.Anything(required=True),
+    }, required=False), required=True))

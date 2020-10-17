@@ -6,7 +6,7 @@ from sqlalchemy.dialects.mysql import \
     TEXT as Text, \
     TINYTEXT as TinyText
 
-from ... import Base
+from ...Base import Base
 
 class MarketGroup(Base):
     """ Schema for the inv_MarketGroup table

@@ -7,7 +7,7 @@ from sqlalchemy.dialects.mysql import \
     INTEGER as Integer, \
     TINYTEXT as TinyText
 
-from ... import Base
+from ...Base import Base
 
 class Prices(Base):
     """ Schema for the mkt_Prices table

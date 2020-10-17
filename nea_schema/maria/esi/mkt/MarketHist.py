@@ -8,7 +8,7 @@ from sqlalchemy.dialects.mysql import \
     INTEGER as Integer, \
     TINYTEXT as TinyText
 
-from ... import Base
+from ...Base import Base
 
 class MarketHist(Base):
     """ Schema for the mkt_History table
@@ -43,10 +43,10 @@ class MarketHist(Base):
     __tablename__ = 'mkt_History'
     
     ## Columns
-    record_date = Column(Date, primary_key=True, autoincrement=False)
     etag = Column(TinyText)
     region_id = Column(Integer(unsigned=True), ForeignKey('map_Region.region_id'), primary_key=True, autoincrement=False)
     type_id = Column(Integer(unsigned=True), ForeignKey('inv_Type.type_id'), primary_key=True, autoincrement=False)
+    record_date = Column(Date, primary_key=True, autoincrement=False, index=True)
     order_count = Column(BigInt(unsigned=True))
     volume = Column(BigInt(unsigned=True))
     lowest = Column(Double(unsigned=True))
@@ -80,9 +80,6 @@ class MarketHist(Base):
         current_date = dt.strptime(esi_return.headers['Last-Modified'], '%a, %d %b %Y %H:%M:%S %Z')
         earliest_date = current_date - td(days=days_back+1)
         data_items = esi_return.json()
-        class_obj = [
-            
-        ]
         for data in data_items:
             record_date = dt.strptime(data.pop('date'), '%Y-%m-%d')
             if (record_date - earliest_date).days < 0: continue

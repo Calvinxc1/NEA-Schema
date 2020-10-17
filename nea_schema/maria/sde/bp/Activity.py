@@ -4,7 +4,7 @@ from sqlalchemy.dialects.mysql import \
     INTEGER as Integer, \
     VARCHAR as VarChar
 
-from ... import Base
+from ...Base import Base
 
 class Activity(Base):
     __tablename__ = 'bp_Activity'

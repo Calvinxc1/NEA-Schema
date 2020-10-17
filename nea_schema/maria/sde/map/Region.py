@@ -3,7 +3,7 @@ from sqlalchemy.dialects.mysql import DOUBLE as Double, INTEGER as Integer
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import relationship
 
-from ... import Base
+from ...Base import Base
 
 class Region(Base):
     """ Schema for the map_Region table

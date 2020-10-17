@@ -1,3 +1,5 @@
-from .Base import Base
+from .esi import *
+from .nea import *
+from .sde import *
 
-from .build_schema import build_schema
+from .Base import Base
