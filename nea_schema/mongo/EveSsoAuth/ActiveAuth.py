@@ -11,6 +11,6 @@ class ActiveAuth(MappedClass):
     access_token = FieldProperty(schema.String(required=True))
     expires_at = FieldProperty(schema.DateTime(required=True))
     refresh_token = FieldProperty(schema.String(required=True))
-    scopes = FieldProperty(schema.String(required=True))
+    scopes = FieldProperty(schema.Array(schema.String, required=True))
     token_type = FieldProperty(schema.String(required=True))
     
