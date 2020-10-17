@@ -131,3 +131,6 @@ dmypy.json
 # Custom Ignores
 *-dev.ipynb
 config/
+/alembic/
+/alembic.ini
+*.sh

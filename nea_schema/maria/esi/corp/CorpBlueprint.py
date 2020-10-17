@@ -8,7 +8,7 @@ from sqlalchemy.dialects.mysql import \
     TINYINT as TinyInt, \
     TINYTEXT as TinyText
 
-from ... import Base
+from ...Base import Base
 
 class CorpBlueprint(Base):    
     __tablename__ = 'corp_Blueprint'

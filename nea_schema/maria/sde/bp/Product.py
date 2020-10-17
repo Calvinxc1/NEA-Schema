@@ -5,7 +5,7 @@ from sqlalchemy.dialects.mysql import \
     INTEGER as Integer, \
     VARCHAR as VarChar
 
-from ... import Base
+from ...Base import Base
 from . import Activity
 
 class Product(Base):

@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql import \
     INTEGER as Integer
 
-from ... import Base
+from ...Base import Base
 
 class Blueprint(Base):
     __tablename__ = 'bp_Blueprint'

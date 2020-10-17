@@ -5,7 +5,7 @@ from sqlalchemy.dialects.mysql import \
     INTEGER as Integer, \
     TINYTEXT as TinyText
 
-from ... import Base
+from ...Base import Base
 
 class Category(Base):
     """ Schema for the inv_Category table

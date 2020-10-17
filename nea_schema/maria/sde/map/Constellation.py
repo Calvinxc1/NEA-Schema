@@ -3,7 +3,7 @@ from sqlalchemy.dialects.mysql import INTEGER as Integer, DOUBLE as Double
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.associationproxy import association_proxy
 
-from ... import Base
+from ...Base import Base
 
 class Constellation(Base):
     """ Schema for the map_Region table

@@ -6,7 +6,7 @@ from sqlalchemy.dialects.mysql import \
     INTEGER as Integer, \
     TINYTEXT as TinyText
 
-from ... import Base
+from ...Base import Base
 
 class Status(Base):
     """ Schema for the srv_ServerStatus table
