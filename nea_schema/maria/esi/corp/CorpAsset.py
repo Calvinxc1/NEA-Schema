@@ -20,6 +20,7 @@ class CorpAsset(Base):
     is_blueprint_copy = Column(Boolean)
     is_singleton = Column(Boolean)
     item_id = Column(BigInt(unsigned=True), primary_key=True, autoincrement=False)
+    item_name = Column(TinyText)
     location_flag = Column(TinyText)
     location_id = Column(BigInt)
     location_type = Column(TinyText)
