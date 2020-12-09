@@ -42,8 +42,8 @@ class CorpIndustry(Base):
     successful_runs = Column(Integer(unsigned=True))
     
     ## Relationships
-    bp_type = relationship('Type', foreign_keys=['blueprint_type_id'])
-    output_type = relationship('Type', foreign_keys=['product_type_id'])
+    bp_type = relationship('Type', foreign_keys=[blueprint_type_id])
+    output_type = relationship('Type', foreign_keys=[product_type_id])
 
     @classmethod
     def esi_parse(cls, esi_return):
