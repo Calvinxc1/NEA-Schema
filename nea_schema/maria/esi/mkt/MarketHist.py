@@ -58,7 +58,7 @@ class MarketHist(Base):
     region = relationship('Region')
 
     @classmethod
-    def esi_parse(cls, esi_return, days_back=5):
+    def esi_parse(cls, esi_return, days_back=None):
         """ Parses and returns an ESI record
         
         Parses through a Requests return, returning a copy of the initialized class.
@@ -78,11 +78,13 @@ class MarketHist(Base):
         
         class_obj = []
         current_date = dt.strptime(esi_return.headers['Last-Modified'], '%a, %d %b %Y %H:%M:%S %Z')
-        earliest_date = current_date - td(days=days_back+1)
+        if days_back: earliest_date = current_date - td(days=days_back+1)
         data_items = esi_return.json()
         for data in data_items:
             record_date = dt.strptime(data.pop('date'), '%Y-%m-%d')
-            if (record_date - earliest_date).days < 0: continue
+            if days_back:
+                if (record_date - earliest_date).days < 0: continue
+            
             class_obj.append(cls(**{
                 **data,
                 'record_date': record_date,
