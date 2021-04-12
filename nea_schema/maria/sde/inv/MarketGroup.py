@@ -44,8 +44,8 @@ class MarketGroup(Base):
     has_types = Column(Boolean)
     
     ## Relationships
-    parent_group = relationship('MarketGroup', remote_side=[market_group_id])
-    child_group = relationship('MarketGroup', remote_side=[parent_group_id])
+    parent_group = relationship('MarketGroup', remote_side=[market_group_id], viewonly=True)
+    child_group = relationship('MarketGroup', remote_side=[parent_group_id], viewonly=True)
     type = relationship('Type')
 
     @classmethod
