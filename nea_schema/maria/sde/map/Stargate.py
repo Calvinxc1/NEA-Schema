@@ -24,6 +24,7 @@ class Stargate(Base):
         'Stargate', uselist=False,
         primaryjoin='Stargate.dest_stargate_id==Stargate.stargate_id',
         foreign_keys='Stargate.stargate_id',
+        viewonly=True,
     )
     type = relationship('Type')
     
