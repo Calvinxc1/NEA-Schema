@@ -23,10 +23,11 @@ class CorpBlueprint(Base):
     quantity = Column(Integer)
     runs = Column(Integer)
     time_efficiency = Column(TinyInt(unsigned=True))
-    type_id = Column(Integer(unsigned=True), ForeignKey('inv_Type.type_id'))
+    type_id = Column(Integer(unsigned=True), ForeignKey('inv_Type.type_id'), ForeignKey('bp_Blueprint.type_id'))
     
     ## Relationships
     type = relationship('Type')
+    bp = relationship('Blueprint', viewonly=True)
 
     @classmethod
     def esi_parse(cls, esi_return):
