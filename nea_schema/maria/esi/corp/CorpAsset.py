@@ -22,13 +22,14 @@ class CorpAsset(Base):
     item_id = Column(BigInt(unsigned=True), primary_key=True, autoincrement=False)
     item_name = Column(TinyText)
     location_flag = Column(TinyText)
-    location_id = Column(BigInt)
+    location_id = Column(BigInt, ForeignKey('corp_Asset.item_id'))
     location_type = Column(TinyText)
     quantity = Column(Integer)
     type_id = Column(Integer(unsigned=True), ForeignKey('inv_Type.type_id'))
     
     ## Relationships
     type = relationship('Type')
+    parent = relationship('CorpAsset', remote_side=[item_id], viewonly=True)
 
     @classmethod
     def esi_parse(cls, esi_return):
