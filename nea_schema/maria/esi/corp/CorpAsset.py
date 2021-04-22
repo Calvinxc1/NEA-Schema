@@ -30,6 +30,7 @@ class CorpAsset(Base):
     ## Relationships
     type = relationship('Type')
     parent = relationship('CorpAsset', remote_side=[item_id], viewonly=True)
+    child = relationship('CorpAsset', remote_side=[location_id], viewonly=True)
 
     @classmethod
     def esi_parse(cls, esi_return):
