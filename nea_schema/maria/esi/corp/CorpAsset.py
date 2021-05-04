@@ -22,15 +22,15 @@ class CorpAsset(Base):
     item_id = Column(BigInt(unsigned=True), primary_key=True, autoincrement=False)
     item_name = Column(TinyText)
     location_flag = Column(TinyText)
-    location_id = Column(BigInt, ForeignKey('corp_Asset.item_id'))
+    location_id = Column(BigInt(unsigned=True))
     location_type = Column(TinyText)
     quantity = Column(Integer)
     type_id = Column(Integer(unsigned=True), ForeignKey('inv_Type.type_id'))
     
     ## Relationships
     type = relationship('Type')
-    parent = relationship('CorpAsset', remote_side=[item_id], viewonly=True)
-    child = relationship('CorpAsset', remote_side=[location_id], viewonly=True)
+    parent = relationship('CorpAsset', primaryjoin='CorpAsset.location_id == foreign(CorpAsset.item_id)', viewonly=True)
+    child = relationship('CorpAsset', primaryjoin='CorpAsset.item_id == foreign(CorpAsset.location_id)', viewonly=True)
 
     @classmethod
     def esi_parse(cls, esi_return):

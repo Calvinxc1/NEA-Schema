@@ -62,6 +62,8 @@ class Type(Base):
     -------------
     group: Type.group_id <> Group.group_id
     market_group: Type.market_group_id <> MarketGroup.market_group_id
+    type_attribute: Type.type_id <> DogmaTypeAttribute.type_id
+    type_effect: Type.type_id <> DogmaTypeEffect.type_id
     """
     
     __tablename__ = 'inv_Type'
@@ -92,6 +94,8 @@ class Type(Base):
     ## Relationships
     group = relationship('Group', back_populates='type')
     market_group = relationship('MarketGroup', back_populates='type')
+    type_attribute = relationship('DogmaTypeAttribute', back_populates='type')
+    type_effect = relationship('DogmaTypeEffect', back_populates='type')
 
     @classmethod
     def sde_parse(cls, sde_record):
