@@ -1,5 +1,5 @@
 from ming.odm import FieldProperty, MappedClass, ThreadLocalODMSession
-from ming.schema import Object, ObjectId, DateTime
+from ming.schema import Anything, Object, ObjectId, DateTime
 import ming
 
 class ProductionQueue(MappedClass):
@@ -8,6 +8,6 @@ class ProductionQueue(MappedClass):
         name = 'ProductionQueue'
 
     _id = FieldProperty(ObjectId)
-    path = FieldProperty(Object(required=True, allow_extra=True))
-    selectedStation = FieldProperty(Object(required=True, allow_extra=True))
+    path = FieldProperty(Object(Anything, required=True))
+    selectedStation = FieldProperty(Anything, Object(required=True))
     createdAt = FieldProperty(DateTime(required=True))
