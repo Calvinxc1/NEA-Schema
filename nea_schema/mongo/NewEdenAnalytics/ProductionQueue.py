@@ -9,5 +9,5 @@ class ProductionQueue(MappedClass):
 
     _id = FieldProperty(ObjectId)
     path = FieldProperty(Object(Anything, required=True))
-    selectedStation = FieldProperty(Anything, Object(required=True))
+    selectedStation = FieldProperty(Object(Anything, required=True))
     createdAt = FieldProperty(DateTime(required=True))
