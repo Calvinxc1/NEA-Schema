@@ -25,12 +25,13 @@ class CorpAsset(Base):
     location_id = Column(BigInt(unsigned=True))
     location_type = Column(TinyText)
     quantity = Column(Integer)
+    station_id = Column(BigInt(unsigned=True))
     type_id = Column(Integer(unsigned=True), ForeignKey('inv_Type.type_id'))
     
     ## Relationships
     type = relationship('Type')
     parent = relationship('CorpAsset', primaryjoin='CorpAsset.location_id == foreign(CorpAsset.item_id)', viewonly=True, uselist=False)
-    child = relationship('CorpAsset', primaryjoin='CorpAsset.item_id == foreign(CorpAsset.location_id)', viewonly=True, uselist=False)
+    child = relationship('CorpAsset', primaryjoin='CorpAsset.item_id == foreign(CorpAsset.location_id)', viewonly=True, uselist=True)
     blueprint = relationship('CorpBlueprint', primaryjoin='CorpAsset.item_id == foreign(CorpBlueprint.item_id)', viewonly=True, uselist=False)
 
     @classmethod
