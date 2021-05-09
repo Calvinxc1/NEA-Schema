@@ -18,7 +18,7 @@ class CorpIndustry(Base):
     ## Columns
     record_time = Column(DateTime)
     etag = Column(TinyText)
-    activity_id = Column(Integer(unsigned=True))
+    activity_type = Column(TinyText)
     blueprint_id = Column(BigInt(unsigned=True))
     blueprint_location_id = Column(BigInt(unsigned=True))
     blueprint_type_id = Column(Integer(unsigned=True), ForeignKey('inv_Type.type_id'))
@@ -42,9 +42,13 @@ class CorpIndustry(Base):
     successful_runs = Column(Integer(unsigned=True))
     
     ## Relationships
-    bp_type = relationship('Type', foreign_keys=[blueprint_type_id])
+    activity = relationship('Activity', primaryjoin="""and_(
+                            CorpIndustry.blueprint_type_id == foreign(Activity.blueprint_id),
+                            CorpIndustry.activity_type == foreign(Activity.activity_type),
+                            )""", viewonly=True, uselist=False)
     output_type = relationship('Type', foreign_keys=[product_type_id])
     blueprint = relationship('CorpBlueprint', primaryjoin='CorpIndustry.blueprint_id == foreign(CorpBlueprint.item_id)', viewonly=True, uselist=False)
+    
 
     @classmethod
     def esi_parse(cls, esi_return):
@@ -63,8 +67,16 @@ class CorpIndustry(Base):
             An initialized copy of the class.
         """
         
+        activity_lookup = {
+            1: 'manufacturing',
+            3: 'research_time',
+            4: 'research_material',
+            5: 'copying',
+            8: 'invention',
+        }
+        
         class_obj = [cls(**{
-            'activity_id': data.get('activity_id'),
+            'activity_type': activity_lookup.get(data.get('activity_id')),
             'blueprint_id': data.get('blueprint_id'),
             'blueprint_location_id': data.get('blueprint_location_id'),
             'blueprint_type_id': data.get('blueprint_type_id'),
