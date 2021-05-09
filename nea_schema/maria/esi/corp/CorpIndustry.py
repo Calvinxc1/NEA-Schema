@@ -42,9 +42,10 @@ class CorpIndustry(Base):
     successful_runs = Column(Integer(unsigned=True))
     
     ## Relationships
-    activity = relationship('Activity', primaryjoin="""and_(
-                            CorpIndustry.blueprint_type_id == foreign(Activity.blueprint_id),
-                            CorpIndustry.activity_type == foreign(Activity.activity_type),
+    product = relationship('Product', primaryjoin="""and_(
+                            CorpIndustry.blueprint_type_id == foreign(Product.blueprint_id),
+                            CorpIndustry.activity_type == foreign(Product.activity_type),
+                            CorpIndustry.product_type_id == foreign(Product.type_id),
                             )""", viewonly=True, uselist=False)
     output_type = relationship('Type', foreign_keys=[product_type_id])
     blueprint = relationship('CorpBlueprint', primaryjoin='CorpIndustry.blueprint_id == foreign(CorpBlueprint.item_id)', viewonly=True, uselist=False)
