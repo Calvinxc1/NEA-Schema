@@ -73,24 +73,10 @@ class Order(Base):
     ## Relationships
     type = relationship('Type')
     system = relationship('System')
+    corp_order = relationship('CorpOrder', primaryjoin='Order.order_id == foreign(CorpOrder.order_id)', viewonly=True, uselist=False)
 
     @classmethod
     def esi_parse(cls, esi_return):
-        """ Parses and returns an ESI record
-        
-        Parses through a Requests return, returning a copy of the initialized class.
-        
-        Parameters
-        ----------
-        esi_return: Requests return
-            A Requests return from an ESI endpoint.
-            
-        Returns
-        -------
-        class_obj: class
-            An initialized copy of the class.
-        """
-        
         data_items = esi_return.json()
         class_obj = [
             cls(**{
