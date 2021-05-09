@@ -30,6 +30,7 @@ class CorpOrder(Base):
     price = Column(Double(unsigned=True))
     range = Column(TinyText)
     region_id = Column(Integer(unsigned=True))
+    state = Column(TinyText)
     type_id = Column(Integer(unsigned=True), ForeignKey('inv_Type.type_id'))
     volume_remain = Column(Integer(unsigned=True))
     volume_total = Column(Integer(unsigned=True))
@@ -45,16 +46,17 @@ class CorpOrder(Base):
             'record_time': dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z'),
             'etag': esi_return.headers.get('Etag'),
             'duration': row.get('duration'),
-            'escrow': row.get('escrow'),
-            'is_buy_order': row.get('is_buy_order'),
+            'escrow': row.get('escrow', 0),
+            'is_buy_order': row.get('is_buy_order', False),
             'issued': dt.strptime(row.get('issued'), '%Y-%m-%dT%H:%M:%SZ'),
             'issued_by': row.get('issued_by'),
             'location_id': row.get('location_id'),
-            'min_volume': row.get('min_volume'),
+            'min_volume': row.get('min_volume', 0),
             'order_id': row.get('order_id'),
             'price': row.get('price'),
             'range': row.get('range'),
             'region_id': row.get('region_id'),
+            'state': row.get('state', 'active'),
             'type_id': row.get('type_id'),
             'volume_remain': row.get('volume_remain'),
             'volume_total': row.get('volume_total'),
