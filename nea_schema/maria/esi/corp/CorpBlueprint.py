@@ -30,24 +30,10 @@ class CorpBlueprint(Base):
     blueprint = relationship('Blueprint', viewonly=True)
     #asset = relationship('CorpAsset')
     location = relationship('CorpAsset')
+    industry = relationship('CorpIndustry', primaryjoin='CorpBlueprint.item_id == foreign(CorpIndustry.blueprint_id)', back_populates='blueprint', viewonly=True, uselist=True)
 
     @classmethod
     def esi_parse(cls, esi_return):
-        """ Parses and returns an ESI record
-        
-        Parses through a Requests return, returning a copy of the initialized class.
-        
-        Parameters
-        ----------
-        esi_return: Requests return
-            A Requests return from an ESI endpoint.
-            
-        Returns
-        -------
-        class_obj: class
-            An initialized copy of the class.
-        """
-        
         class_obj = [cls(**{
             **data,
             'record_time': dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z'),
