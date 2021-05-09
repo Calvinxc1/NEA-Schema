@@ -63,7 +63,30 @@ class CorpIndustry(Base):
         """
         
         class_obj = [cls(**{
-            **data,
+            'activity_id': data.get('activity_id'),
+            'blueprint_id': data.get('blueprint_id'),
+            'blueprint_location_id': data.get('blueprint_location_id'),
+            'blueprint_type_id': data.get('blueprint_type_id'),
+            'completed_character_id': data.get('completed_character_id'),
+            'completed_date': None if data.get('completed_date') is None\
+                else dt.strptime(data.get('completed_date'), '%Y-%m-%dT%H:%M:%SZ'),
+            'cost': data.get('cost'),
+            'duration': data.get('duration'),
+            'end_date': dt.strptime(data.get('end_date'), '%Y-%m-%dT%H:%M:%SZ'),
+            'facility_id': data.get('facility_id'),
+            'installer_id': data.get('installer_id'),
+            'job_id': data.get('job_id'),
+            'licensed_runs': data.get('licensed_runs'),
+            'location_id': data.get('location_id'),
+            'output_location_id': data.get('output_location_id'),
+            'pause_date': None if data.get('pause_date') is None\
+                else dt.strptime(data.get('pause_date'), '%Y-%m-%dT%H:%M:%SZ'),
+            'probability': data.get('probability'),
+            'product_type_id': data.get('product_type_id'),
+            'runs': data.get('runs'),
+            'start_date': dt.strptime(data.get('start_date'), '%Y-%m-%dT%H:%M:%SZ'),
+            'status': data.get('status'),
+            'successful_runs': data.get('successful_runs'),
             'record_time': dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z'),
             'etag': esi_return.headers.get('Etag'),
         }) for data in esi_return.json()]
