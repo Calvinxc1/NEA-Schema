@@ -30,7 +30,7 @@ class CorpBlueprint(Base):
     blueprint = relationship('Blueprint', viewonly=True)
     #asset = relationship('CorpAsset')
     location = relationship('CorpAsset')
-    industry = relationship('CorpIndustry', primaryjoin='CorpBlueprint.item_id == foreign(CorpIndustry.blueprint_id)', back_populates='blueprint', viewonly=True, uselist=True)
+    industry = relationship('CorpIndustry', primaryjoin='CorpBlueprint.item_id == foreign(CorpIndustry.blueprint_id)', viewonly=True, uselist=True)
 
     @classmethod
     def esi_parse(cls, esi_return):

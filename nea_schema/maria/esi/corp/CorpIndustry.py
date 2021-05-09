@@ -44,7 +44,7 @@ class CorpIndustry(Base):
     ## Relationships
     bp_type = relationship('Type', foreign_keys=[blueprint_type_id])
     output_type = relationship('Type', foreign_keys=[product_type_id])
-    blueprint = relationship('CorpBlueprint', primaryjoin='CorpIndustry.blueprint_id == foreign(CorpBlueprint.item_id)', back_populates='industry', viewonly=True, uselist=False)
+    blueprint = relationship('CorpBlueprint', primaryjoin='CorpIndustry.blueprint_id == foreign(CorpBlueprint.item_id)', viewonly=True, uselist=False)
 
     @classmethod
     def esi_parse(cls, esi_return):
