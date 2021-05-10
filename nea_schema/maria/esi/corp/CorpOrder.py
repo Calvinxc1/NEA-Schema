@@ -5,11 +5,9 @@ from sqlalchemy.dialects.mysql import \
     BIGINT as BigInt, \
     BOOLEAN as Boolean, \
     DATETIME as DateTime, \
-    INTEGER as Integer, \
-    TINYINT as TinyInt, \
-    TINYTEXT as TinyText, \
     DOUBLE as Double, \
-    FLOAT as Float
+    INTEGER as Integer, \
+    TINYTEXT as TinyText
 
 from ...Base import Base
 
