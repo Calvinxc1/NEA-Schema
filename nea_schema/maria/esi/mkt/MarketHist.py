@@ -11,35 +11,6 @@ from sqlalchemy.dialects.mysql import \
 from ...Base import Base
 
 class MarketHist(Base):
-    """ Schema for the mkt_History table
-    
-    Columns
-    -------
-    record_time: DateTime, Primary Key
-        The cache time on the ESI return.
-    etag: TinyText
-        The ETag on the ESI return.
-    region_id: Unsigned Integer, Primary Key
-        The region the history data is for.
-    type_id: Unsigned Integer, Primary Key
-        The type the history data is for.
-    order_count: Unsigned Big Integer
-        How many orders were transacted against (confirm), given record_time, region_id, and type_id.
-    volume: Unsigned Big Integer
-        How many units were transacted, given record_time, region_id, and type_id.
-    lowest: Unsigned Double
-        What was the lowest unit price transacted, given record_time, region_id, and type_id.
-    average: Unsigned Double
-        What was the mean unit price transacted, given record_time, region_id, and type_id.
-    highest: Unsigned Double
-        What was the highest unit price transacted, given record_time, region_id, and type_id.
-        
-    Relationships
-    -------------
-    type: Order.type_id <> Type.type_id
-    region: Order.region_id <> Region.region_id
-    """
-    
     __tablename__ = 'mkt_History'
     
     ## Columns
@@ -58,43 +29,27 @@ class MarketHist(Base):
     region = relationship('Region')
 
     @classmethod
-    def esi_parse(cls, esi_return, days_back=None):
-        """ Parses and returns an ESI record
+    def esi_parse(cls, esi_return, orm=True, days_back=None):
+        record_time = dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z')
+        etag = esi_return.headers.get('Etag')
+        region_id = int(esi_return.url.split('/')[5])
+        type_id = int([
+            param.split('=')[1] for param
+            in esi_return.url.split('?')[1].split('&')
+            if param.startswith('type_id=')
+        ][0])
         
-        Parses through a Requests return, returning a copy of the initialized class.
-        
-        Parameters
-        ----------
-        esi_return: Requests return
-            A Requests return from an ESI endpoint.
-        days_back: int (optional, default 5)
-            How many days back from the last modified date to accept records for.
+        if days_back:
+            earliest_date = record_time.date() - td(days=days_back-1)
             
-        Returns
-        -------
-        class_obj: class
-            An initialized copy of the class.
-        """
-        
-        class_obj = []
-        current_date = dt.strptime(esi_return.headers['Last-Modified'], '%a, %d %b %Y %H:%M:%S %Z')
-        if days_back: earliest_date = current_date - td(days=days_back+1)
-        data_items = esi_return.json()
-        for data in data_items:
-            record_date = dt.strptime(data.pop('date'), '%Y-%m-%d')
-            if days_back:
-                if (record_date - earliest_date).days < 0: continue
-            
-            class_obj.append(cls(**{
-                **data,
-                'record_date': record_date,
-                'etag': esi_return.headers.get('Etag'),
-                'region_id': int(esi_return.url.split('/')[5]),
-                'type_id': int([
-                    param.split('=')[1] for param
-                    in esi_return.url.split('?')[1].split('&')
-                    if param.startswith('type_id=')
-                ][0]),
-            }))
-            
-        return class_obj
+        record_items = [{
+            'record_time': record_time,
+            'etag': etag,
+            **row,
+            'region_id': region_id,
+            'type_id': type_id,
+        } for row in esi_return.json()
+            if dt.strptime(row['date'], '%Y-%m-%d') >= earliest_date
+        ]
+        if orm: record_items = [cls(**row) for row in record_items]
+        return record_items

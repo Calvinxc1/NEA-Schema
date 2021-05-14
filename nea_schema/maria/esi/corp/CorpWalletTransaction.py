@@ -39,19 +39,17 @@ class CorpWalletTransaction(Base):
     )
 
     @classmethod
-    def esi_parse(cls, esi_return, division):
-        class_obj = [cls(**{
-            'record_time': dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z'),
-            'etag': esi_return.headers.get('Etag'),
-            'client_id': row.get('client_id'),
+    def esi_parse(cls, esi_return, orm=True):
+        record_time = dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z')
+        etag = esi_return.headers.get('Etag')
+        division = esi_return.url.split('/')[7]
+        record_items = [{
+            'record_time': record_time,
+            'etag': etag,
+            **row,
             'date': dt.strptime(row.get('date'), '%Y-%m-%dT%H:%M:%SZ'),
             'division': division,
             'is_buy': row.get('is_buy', False),
-            'journal_ref_id': row.get('journal_ref_id'),
-            'location_id': row.get('location_id'),
-            'quantity': row.get('quantity'),
-            'transaction_id': row.get('transaction_id'),
-            'type_id': row.get('type_id'),
-            'unit_price': row.get('unit_price'),
-        }) for row in esi_return.json()]
-        return class_obj
+        } for row in esi_return.json()]
+        if orm: record_items = [cls(**row) for row in record_items]
+        return record_items

@@ -39,25 +39,18 @@ class CorpOrder(Base):
     order = relationship('Order', primaryjoin='CorpOrder.order_id == foreign(Order.order_id)', viewonly=True, uselist=False)
 
     @classmethod
-    def esi_parse(cls, esi_return):
-        class_obj = [cls(**{
-            'record_time': dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z'),
-            'etag': esi_return.headers.get('Etag'),
-            'duration': row.get('duration'),
+    def esi_parse(cls, esi_return, orm=True):
+        record_time = dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z')
+        etag = esi_return.headers.get('Etag')
+        record_items = [{
+            'record_time': record_time,
+            'etag': etag,
+            **row,
             'escrow': row.get('escrow', 0),
             'is_buy_order': row.get('is_buy_order', False),
             'issued': dt.strptime(row.get('issued'), '%Y-%m-%dT%H:%M:%SZ'),
-            'issued_by': row.get('issued_by'),
-            'location_id': row.get('location_id'),
             'min_volume': row.get('min_volume', 0),
-            'order_id': row.get('order_id'),
-            'price': row.get('price'),
-            'range': row.get('range'),
-            'region_id': row.get('region_id'),
             'state': row.get('state', 'active'),
-            'type_id': row.get('type_id'),
-            'volume_remain': row.get('volume_remain'),
-            'volume_total': row.get('volume_total'),
-            'wallet_division': row.get('wallet_division'),
-        }) for row in esi_return.json()]
-        return class_obj
+        } for row in esi_return.json()]
+        if orm: record_items = [cls(**row) for row in record_items]
+        return record_items

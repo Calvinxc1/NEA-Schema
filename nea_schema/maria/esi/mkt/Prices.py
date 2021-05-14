@@ -10,26 +10,6 @@ from sqlalchemy.dialects.mysql import \
 from ...Base import Base
 
 class Prices(Base):
-    """ Schema for the mkt_Prices table
-    
-    Columns
-    -------
-    record_time: DateTime, Primary Key
-        The cache time on the ESI return.
-    etag: TinyText
-        The ETag on the ESI return.
-    type_id: Unsigned Integer, Primary Key
-        The type that the data is for.
-    adjusted_price: Unsigned Double
-        The adjusted price, given record_time and type_id.
-    average_price: Unsigned Double
-        The average price, given record_time and type_id.
-        
-    Relationships
-    -------------
-    type: Prices.type_id <> Type.type_id
-    """
-    
     __tablename__ = 'mkt_Prices'
     
     ## Columns
@@ -43,28 +23,13 @@ class Prices(Base):
     type = relationship('Type')
 
     @classmethod
-    def esi_parse(cls, esi_return):
-        """ Parses and returns an ESI record
-        
-        Parses through a Requests return, returning a copy of the initialized class.
-        
-        Parameters
-        ----------
-        esi_return: Requests return
-            A Requests return from an ESI endpoint.
-            
-        Returns
-        -------
-        class_obj: class
-            An initialized copy of the class.
-        """
-        
-        data_items = esi_return.json()
-        class_obj = [
-            cls(**{
-                **data,
-                'record_time': dt.strptime(esi_return.headers['Last-Modified'], '%a, %d %b %Y %H:%M:%S %Z'),
-                'etag': esi_return.headers.get('Etag'),
-            }) for data in data_items
-        ]
-        return class_obj
+    def esi_parse(cls, esi_return, orm=True):
+        record_time = dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z')
+        etag = esi_return.headers.get('Etag')
+        record_items = [{
+            'record_time': record_time,
+            'etag': etag,
+            **row,
+        } for row in esi_return.json()]
+        if orm: record_items = [cls(**row) for row in record_items]
+        return record_items

@@ -1,10 +1,10 @@
+from ming import Session
 from ming.odm import FieldProperty, MappedClass, ThreadLocalODMSession
 from ming.schema import Anything, Object, ObjectId, DateTime, Int
-import ming
 
 class ProductionQueue(MappedClass):
     class __mongometa__:
-        session = ThreadLocalODMSession(doc_session=ming.Session.by_name('NewEdenAnalytics'))
+        session = ThreadLocalODMSession(doc_session=Session.by_name('NewEdenAnalytics'))
         name = 'ProductionQueue'
 
     _id = FieldProperty(ObjectId)
