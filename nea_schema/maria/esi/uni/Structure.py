@@ -38,9 +38,11 @@ class Structure(Base):
         record_items = [{
             'record_time': record_time,
             'etag': etag,
+            'structure_name': row.pop('name'),
+            'system_id': row.pop('solar_system_id'),
+            **{'pos_{}'.format(key):val for key, val in row.pop('position').items()},
             **row,
             'structure_id': structure_id,
-            **{'pos_{}'.format(key):val for key, val in row.pop('position').items()},
         }]
         if orm: record_items = [cls(**row) for row in record_items]
         return record_items
