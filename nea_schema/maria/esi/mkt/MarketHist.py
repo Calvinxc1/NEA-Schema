@@ -29,7 +29,7 @@ class MarketHist(Base):
     region = relationship('Region')
 
     @classmethod
-    def esi_parse(cls, esi_return, orm=True, days_back=None):
+    def esi_parse(cls, esi_return, orm=True, days_back=7):
         record_time = dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z')
         etag = esi_return.headers.get('Etag')
         region_id = int(esi_return.url.split('/')[5])
@@ -39,8 +39,8 @@ class MarketHist(Base):
             if param.startswith('type_id=')
         ][0])
         
-        if days_back:
-            earliest_date = record_time.date() - td(days=days_back-1)
+        earliest_date = record_time.date() - td(days=days_back-1)\
+            if days_back else date(1970,1,1)
             
         record_items = [{
             'record_time': record_time,

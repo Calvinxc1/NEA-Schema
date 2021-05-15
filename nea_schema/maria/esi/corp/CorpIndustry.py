@@ -66,8 +66,8 @@ class CorpIndustry(Base):
         record_items = [{
             'record_time': record_time,
             'etag': etag,
+            'activity_type': activity_lookup.get(row.pop('activity_id')),
             **row,
-            'activity_type': activity_lookup.get(row.get('activity_id')),
             'completed_date': None if row.get('completed_date') is None\
                 else dt.strptime(row.get('completed_date'), '%Y-%m-%dT%H:%M:%SZ'),
             'end_date': dt.strptime(row.get('end_date'), '%Y-%m-%dT%H:%M:%SZ'),
