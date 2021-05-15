@@ -13,7 +13,6 @@ class Status(Base):
     
     ## Columns
     record_time = Column(DateTime, primary_key=True, autoincrement=False)
-    etag = Column(TinyText)
     players = Column(Integer(unsigned=True))
     server_version = Column(TinyText)
     start_time = Column(DateTime)
@@ -22,11 +21,9 @@ class Status(Base):
     @classmethod
     def esi_parse(cls, esi_return, orm=True):
         record_time = dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z')
-        etag = esi_return.headers.get('Etag')
         row = esi_return.json()
         record_items = [{
             'record_time': record_time,
-            'etag': etag,
             **row,
             'start_time': dt.strptime(row['start_time'], '%Y-%m-%dT%H:%M:%SZ'),
         }]

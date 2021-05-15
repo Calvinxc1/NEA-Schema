@@ -18,7 +18,6 @@ class CorpWalletTransaction(Base):
     
     ## Columns
     record_time = Column(DateTime)
-    etag = Column(TinyText)
     client_id = Column(BigInt(unsigned=True))
     date = Column(DateTime)
     division = Column(TinyInt(unsigned=True))
@@ -41,11 +40,9 @@ class CorpWalletTransaction(Base):
     @classmethod
     def esi_parse(cls, esi_return, orm=True):
         record_time = dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z')
-        etag = esi_return.headers.get('Etag')
         division = esi_return.url.split('/')[7]
         record_items = [{
             'record_time': record_time,
-            'etag': etag,
             **row,
             'date': dt.strptime(row.get('date'), '%Y-%m-%dT%H:%M:%SZ'),
             'division': division,

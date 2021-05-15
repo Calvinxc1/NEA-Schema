@@ -18,7 +18,6 @@ class CorpWalletJournal(Base):
     
     ## Columns
     record_time = Column(DateTime)
-    etag = Column(TinyText)
     amount = Column(Double(unsigned=False))
     balance = Column(Double(unsigned=True))
     context_id = Column(BigInt(unsigned=True))
@@ -44,11 +43,9 @@ class CorpWalletJournal(Base):
     @classmethod
     def esi_parse(cls, esi_return, orm=True):
         record_time = dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z')
-        etag = esi_return.headers.get('Etag')
         division = esi_return.url.split('/')[7]
         record_items = [{
             'record_time': record_time,
-            'etag': etag,
             'journal_id': row.pop('id'),
             **row,
             'date': dt.strptime(row.get('date'), '%Y-%m-%dT%H:%M:%SZ'),

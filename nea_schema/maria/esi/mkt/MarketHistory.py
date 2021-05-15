@@ -10,11 +10,10 @@ from sqlalchemy.dialects.mysql import \
 
 from ...Base import Base
 
-class MarketHist(Base):
+class MarketHistory(Base):
     __tablename__ = 'mkt_History'
     
     ## Columns
-    etag = Column(TinyText)
     region_id = Column(Integer(unsigned=True), ForeignKey('map_Region.region_id'), primary_key=True, autoincrement=False)
     type_id = Column(Integer(unsigned=True), ForeignKey('inv_Type.type_id'), primary_key=True, autoincrement=False)
     record_date = Column(Date, primary_key=True, autoincrement=False, index=True)
@@ -31,7 +30,6 @@ class MarketHist(Base):
     @classmethod
     def esi_parse(cls, esi_return, orm=True, days_back=7):
         record_time = dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z')
-        etag = esi_return.headers.get('Etag')
         region_id = int(esi_return.url.split('/')[5])
         type_id = int([
             param.split('=')[1] for param
@@ -44,7 +42,6 @@ class MarketHist(Base):
             
         record_items = [{
             'record_time': record_time,
-            'etag': etag,
             **row,
             'region_id': region_id,
             'type_id': type_id,

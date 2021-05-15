@@ -15,7 +15,6 @@ class CorpBlueprint(Base):
     
     ## Columns
     record_time = Column(DateTime)
-    etag = Column(TinyText)
     item_id = Column(BigInt(unsigned=True), primary_key=True, autoincrement=False)
     location_flag = Column(TinyText)
     location_id = Column(BigInt, ForeignKey('corp_Asset.item_id'))
@@ -35,10 +34,8 @@ class CorpBlueprint(Base):
     @classmethod
     def esi_parse(cls, esi_return, orm=True):
         record_time = dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z')
-        etag = esi_return.headers.get('Etag')
         record_items = [{
             'record_time': record_time,
-            'etag': etag,
             **row,
         } for row in esi_return.json()]
         if orm: record_items = [cls(**row) for row in record_items]

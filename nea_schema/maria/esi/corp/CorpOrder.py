@@ -16,7 +16,6 @@ class CorpOrder(Base):
     
     ## Columns
     record_time = Column(DateTime)
-    etag = Column(TinyText)
     duration = Column(Integer(unsigned=True))
     escrow = Column(Double(unsigned=True))
     is_buy_order = Column(Boolean)
@@ -41,10 +40,8 @@ class CorpOrder(Base):
     @classmethod
     def esi_parse(cls, esi_return, orm=True):
         record_time = dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z')
-        etag = esi_return.headers.get('Etag')
         record_items = [{
             'record_time': record_time,
-            'etag': etag,
             **row,
             'escrow': row.get('escrow', 0),
             'is_buy_order': row.get('is_buy_order', False),

@@ -17,7 +17,6 @@ class CorpIndustry(Base):
     
     ## Columns
     record_time = Column(DateTime)
-    etag = Column(TinyText)
     activity_type = Column(TinyText)
     blueprint_id = Column(BigInt(unsigned=True))
     blueprint_location_id = Column(BigInt(unsigned=True))
@@ -62,10 +61,8 @@ class CorpIndustry(Base):
         }
         
         record_time = dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z')
-        etag = esi_return.headers.get('Etag')
         record_items = [{
             'record_time': record_time,
-            'etag': etag,
             'activity_type': activity_lookup.get(row.pop('activity_id')),
             **row,
             'completed_date': None if row.get('completed_date') is None\

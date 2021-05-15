@@ -16,7 +16,6 @@ class Order(Base):
     
     ## Columns
     record_time = Column(DateTime)
-    etag = Column(TinyText)
     order_id = Column(BigInt(unsigned=True), primary_key=True, autoincrement=False)
     type_id = Column(Integer(unsigned=True), ForeignKey('inv_Type.type_id'))
     system_id = Column(Integer(unsigned=True), ForeignKey('map_System.system_id'))
@@ -38,10 +37,8 @@ class Order(Base):
     @classmethod
     def esi_parse(cls, esi_return, orm=True):
         record_time = dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z')
-        etag = esi_return.headers.get('Etag')
         record_items = [{
             'record_time': record_time,
-            'etag': etag,
             **row,
             'issued': dt.strptime(row['issued'], '%Y-%m-%dT%H:%M:%SZ'),
         } for row in esi_return.json()]

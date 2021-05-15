@@ -15,7 +15,6 @@ class Structure(Base):
     
     ## Columns
     record_time = Column(DateTime)
-    etag = Column(TinyText)
     structure_id = Column(BigInt(unsigned=True), primary_key=True, autoincrement=False)
     structure_name = Column(TinyText)
     owner_id = Column(Integer(unsigned=True))
@@ -32,12 +31,10 @@ class Structure(Base):
     @classmethod
     def esi_parse(cls, esi_return, orm=True):
         record_time = dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z')
-        etag = esi_return.headers.get('Etag')
         structure_id = int(esi_return.url.split('?')[0].split('/')[-1])
         row = esi_return.json()
         record_items = [{
             'record_time': record_time,
-            'etag': etag,
             'structure_name': row.pop('name'),
             'system_id': row.pop('solar_system_id'),
             **{'pos_{}'.format(key):val for key, val in row.pop('position').items()},
