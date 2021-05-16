@@ -19,6 +19,7 @@ class Order(Base):
     order_id = Column(BigInt(unsigned=True), primary_key=True, autoincrement=False)
     type_id = Column(Integer(unsigned=True), ForeignKey('inv_Type.type_id'))
     system_id = Column(Integer(unsigned=True), ForeignKey('map_System.system_id'))
+    region_id = Column(Integer(unsigned=True), ForeignKey('map_Region.region_id'))
     location_id = Column(BigInt(unsigned=True))
     is_buy_order = Column(Boolean)
     price = Column(Double(unsigned=True))
@@ -32,13 +33,16 @@ class Order(Base):
     ## Relationships
     type = relationship('Type')
     system = relationship('System')
+    region = relationship('Region')
     corp_order = relationship('CorpOrder', primaryjoin='Order.order_id == foreign(CorpOrder.order_id)', viewonly=True, uselist=False)
 
     @classmethod
     def esi_parse(cls, esi_return, orm=True):
         record_time = dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z')
+        region_id = int(esi_return.url.split('/')[-2])
         record_items = [{
             'record_time': record_time,
+            'region_id': region_id,
             **row,
             'issued': dt.strptime(row['issued'], '%Y-%m-%dT%H:%M:%SZ'),
         } for row in esi_return.json()]
