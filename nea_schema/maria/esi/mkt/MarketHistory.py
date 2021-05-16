@@ -41,12 +41,12 @@ class MarketHistory(Base):
             if days_back else date(1970,1,1)
             
         record_items = [{
-            'record_time': record_time,
-            **row,
+            'record_date': row.pop('date'),
             'region_id': region_id,
             'type_id': type_id,
+            **row,
         } for row in esi_return.json()
-            if dt.strptime(row['date'], '%Y-%m-%d') >= earliest_date
+            if dt.strptime(row['date'], '%Y-%m-%d').date() >= earliest_date
         ]
         if orm: record_items = [cls(**row) for row in record_items]
         return record_items
