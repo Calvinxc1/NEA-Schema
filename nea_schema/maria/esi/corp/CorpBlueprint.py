@@ -15,9 +15,9 @@ class CorpBlueprint(Base):
     
     ## Columns
     record_time = Column(DateTime)
-    item_id = Column(BigInt(unsigned=True), primary_key=True, autoincrement=False)
+    item_id = Column(BigInt(unsigned=True), ForeignKey('corp_Asset.item_id'), primary_key=True, autoincrement=False)
     location_flag = Column(TinyText)
-    location_id = Column(BigInt, ForeignKey('corp_Asset.item_id'))
+    location_id = Column(BigInt)
     material_efficiency = Column(TinyInt(unsigned=True))
     quantity = Column(Integer)
     runs = Column(Integer)
@@ -27,9 +27,12 @@ class CorpBlueprint(Base):
     ## Relationships
     type = relationship('Type')
     blueprint = relationship('Blueprint', viewonly=True)
-    #asset = relationship('CorpAsset')
-    location = relationship('CorpAsset')
-    industry = relationship('CorpIndustry', primaryjoin='CorpBlueprint.item_id == foreign(CorpIndustry.blueprint_id)', viewonly=True, uselist=True)
+    asset = relationship('CorpAsset')
+    industry = relationship(
+        'CorpIndustry',
+        primaryjoin='CorpBlueprint.item_id == foreign(CorpIndustry.blueprint_id)',
+        viewonly=True, uselist=True,
+    )
 
     @classmethod
     def esi_parse(cls, esi_return, orm=True):
