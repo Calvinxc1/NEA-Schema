@@ -1,42 +1,13 @@
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.dialects.mysql import INTEGER as Integer, DOUBLE as Double
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.dialects.mysql import \
+    INTEGER as Integer, \
+    DOUBLE as Double
 
 from ...Base import Base
 
 class Constellation(Base):
-    """ Schema for the map_Region table
-    
-    Columns
-    -------
-    constellation_id: Integer, Unsigned - Primary Key
-        The unique identifier for the constellation
-    constellation_name: Aliased from ItemName.item_name
-        The name of the region
-    region_id: Integer, Unsigned - Foreign Key (Region.region_id)
-        The identifier for the region the constellation is in
-    name_id: Integer, Unsigned
-        Name ID number
-    faction_id: Integer, Unsigned
-        Faction ID number
-    wormhole_class_id: Integer, Unsigned
-        Wormhole Class ID
-    radius: Double, Signed
-        The spatial radius containing the constellation
-    min_x/y/z: Double, Signed
-        XYZ vector for the constellation's min coordinates in the universe frame
-    center_x/y/z: Double, Signed
-        XYZ vector for the constellation's origin coordinates in the universe frame
-    max_x/y/z: Double, Signed
-        XYZ vector for the constellation's max coordinates in the universe frame
-        
-    Relationships
-    -------------
-    item_name: Constellation.constellation_id <> ItemName.item_id
-    region: Constellation.region_id <> Region.region_id
-    """
-    
     __tablename__ = 'map_Constellation'
     
     ## Columns
@@ -66,19 +37,6 @@ class Constellation(Base):
     
     @classmethod
     def sde_parse(cls, sde_record):
-        """ Auto-parser for EVE Static Data Export file(s)
-        
-        Parameters
-        ----------
-        sde_record: dict
-            YAML-parsed dictionary of a specific constellation
-            
-        Returns
-        -------
-        Constellation:
-            A fully-populated Constellation object
-        """
-        
         sde_obj = cls(
             constellation_id=sde_record.get('constellationID'),
             region_id=sde_record.get('regionID'),

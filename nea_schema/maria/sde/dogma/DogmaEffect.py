@@ -9,67 +9,6 @@ from sqlalchemy.dialects.mysql import \
 from ...Base import Base
 
 class DogmaEffect(Base):
-    """ Schema for the DogmaEffect table
-    
-    Columns
-    -------
-    effect_id: Unsigned Integer
-        Primary id for the effect
-    disallow_auto_repeat: Boolean
-        ???
-    discharge_attribute_id: Unsigned Integer
-        ???
-    duration_attribute_id: Unsigned Integer
-        ???
-    effect_category: Unsigned Integer
-        ???
-    effect_name: Text
-        Name of the effect
-    electronic_chance: Boolean
-        ???
-    guid: Text
-        ???
-    is_assistance: Boolean
-        ???
-    is_offensive: Boolean
-        ???
-    is_warp_safe: Boolean
-        ???
-    propulsion_chance: Boolean
-        ???
-    published: Boolean
-        Is the effect published?
-    range_chance: Boolean
-        ???
-    distribution: Unsigned Integer
-        ???
-    falloff_attribute_id: Unsigned Integer
-        ???
-    range_attribute_id: Unsigned Integer
-        ???
-    tracking_speed_attribute_id: Unsigned Integer
-        ???
-    description: Text
-        Description of the effect
-    display_name: Text
-        Display name of the effect
-    icon_id: Unsigned Integer
-        ???
-    npc_usage_chance_attribute_id: Unsigned Integer
-        ???
-    npc_activation_chance_attribute_id: Unsigned Integer
-        ???
-    fitting_usage_chance_attribute_id: Unsigned Integer
-        ???
-    resistance_attribute_id: Unsigned Integer
-        ???
-        
-    Relationships
-    -------------
-    type_effect: DogmaEffect.effect_id <> DogmaTypeEffect.effect_id
-    modifier: DogmaEffect.effect_id <> DogmaModifier.effect_id
-    """
-    
     __tablename__ = 'dogma_Effect'
     
     ## Columns

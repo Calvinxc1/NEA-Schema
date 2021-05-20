@@ -7,23 +7,6 @@ from sqlalchemy.dialects.mysql import \
 from ...Base import Base
 
 class DogmaTypeEffect(Base):
-    """ Schema for the DogpaTypeEffect table
-    
-    Columns
-    -------
-    type_id: Unsigned Integer, Primary Key
-        The type item that the dogma attribute applies to.
-    effect_id: Unsigned Integer, Primary Key
-        The effect that is being applied to the type.
-    is_default: Boolean
-        ???
-        
-    Relationships
-    -------------
-    type: DogmaTypeAttribute.type_id <> Type.type_id
-    attribute: DogmaTypeAttribute.attribute_id <> DogmaAttribute.attribute_id
-    """
-    
     __tablename__ = 'dogma_TypeEffect'
     
     ## Columns

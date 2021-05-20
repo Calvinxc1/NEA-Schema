@@ -1,7 +1,11 @@
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.dialects.mysql import INTEGER as Integer, DOUBLE as Double, BOOLEAN as Boolean, FLOAT as Float, VARCHAR as VarChar
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.dialects.mysql import \
+    BOOLEAN as Boolean, \
+    DOUBLE as Double, \
+    FLOAT as Float, \
+    INTEGER as Integer
 
 from ...Base import Base
 
@@ -28,6 +32,11 @@ class Station(Base):
     name = relationship('Name')
     planet = relationship('Planet', back_populates='station')
     type = relationship('Type')
+    office = relationship(
+        'CorpAsset',
+        primaryjoin='Station.station_id == foreign(CorpAsset.location_id)',
+        viewonly=True, uselist=False,
+    )
     
     ## Aliased Columns
     station_name = association_proxy('item_name', 'item_name')

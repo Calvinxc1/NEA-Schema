@@ -29,9 +29,21 @@ class CorpAsset(Base):
     
     ## Relationships
     type = relationship('Type')
-    parent = relationship('CorpAsset', primaryjoin='CorpAsset.location_id == foreign(CorpAsset.item_id)', viewonly=True, uselist=False)
-    child = relationship('CorpAsset', primaryjoin='CorpAsset.item_id == foreign(CorpAsset.location_id)', viewonly=True, uselist=True)
-    blueprint = relationship('CorpBlueprint', primaryjoin='CorpAsset.item_id == foreign(CorpBlueprint.item_id)', viewonly=True, uselist=False)
+    parent = relationship(
+        'CorpAsset',
+        primaryjoin='CorpAsset.location_id == foreign(CorpAsset.item_id)',
+        viewonly=True, uselist=False,
+    )
+    child = relationship(
+        'CorpAsset',
+        primaryjoin='CorpAsset.item_id == foreign(CorpAsset.location_id)',
+        viewonly=True, uselist=True,
+    )
+    blueprint = relationship(
+        'CorpBlueprint',
+        primaryjoin='CorpAsset.item_id == foreign(CorpBlueprint.item_id)',
+        viewonly=True, uselist=False,
+    )
 
     @classmethod
     def esi_parse(cls, esi_return, orm=True):

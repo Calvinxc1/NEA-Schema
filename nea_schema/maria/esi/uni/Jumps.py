@@ -3,8 +3,7 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql import \
     DATETIME as DateTime, \
-    INTEGER as Integer, \
-    TINYTEXT as TinyText
+    INTEGER as Integer
 
 from ...Base import Base
 

@@ -11,61 +11,6 @@ from sqlalchemy.dialects.mysql import \
 from ...Base import Base
 
 class Type(Base):
-    """ Schema for the inv_Type table
-    
-    Columns
-    -------
-    type_id: Unsigned Integer, Primary Key
-        Unique identifier for type.
-    type_name: Tiny Text
-        Name of type.
-    type_desc: Text
-        Description of type.
-    group_id: Unsigned Integer
-        Group that type is a part of.
-    market_group_id: Unisgned Integer
-        Market Group that type is a part of.
-    faction_id: Unsigned Integer
-        Faction that type is a part of (???).
-    graphic_id: Unsigned Integer
-        Graphic that type is a part of.
-    icon_id: Unsinged Integer
-        Icon that type is a part of.
-    meta_group_id: Unsigned Integer
-        ???
-    sound_id: Unsigned Integer
-        ???
-    race_id: Unsigned Integer
-        ???
-    variation_parent_type_id: Unsigned Integer
-        ???
-    base_price: Unsigned Float
-        ???
-    capacity: Unsgined Float
-        ???
-    mass: Unsigned Double
-        Amount of mass (packaged/unpackaged?) the item has.
-    portion_size: Unsigned Integer
-        How many units are required to reprocess/refine the item.
-    published: Boolean
-        Whether or not the category is published in the game.
-    radius: Unsigned Float
-        The in-space radius size of the object.
-    volume: Unsigned Float
-        How much (packaged/unpackaged?) volume the item takes up.
-    sof_faction_name: Tiny Text
-        ???
-    sof_material_set_id: Unsigned Integer
-        ???
-        
-    Relationships
-    -------------
-    group: Type.group_id <> Group.group_id
-    market_group: Type.market_group_id <> MarketGroup.market_group_id
-    type_attribute: Type.type_id <> DogmaTypeAttribute.type_id
-    type_effect: Type.type_id <> DogmaTypeEffect.type_id
-    """
-    
     __tablename__ = 'inv_Type'
     
     ## Columns
@@ -99,21 +44,6 @@ class Type(Base):
 
     @classmethod
     def sde_parse(cls, sde_record):
-        """ Parses and returns an SDE record.
-        
-        Parses through a PyYAML processed SDE record, returning a copy of the initialized class.
-        
-        Parameters
-        ----------
-        sde_record: dict
-            Dictionary of PyYAML parsed SDE record.
-            
-        Returns
-        -------
-        sde_obj: class
-            An initialized copy of the class.
-        """
-        
         sde_obj = cls(
             type_id=sde_record.get('typeID'),
             type_name=sde_record.get('name', {}).get('en'),

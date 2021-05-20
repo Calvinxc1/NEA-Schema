@@ -9,34 +9,6 @@ from sqlalchemy.dialects.mysql import \
 from ...Base import Base
 
 class DogmaModifier(Base):
-    """ Schema for the DogmaModifier table
-    
-    Columns
-    -------
-    parent_effect_id: Unsigned Integer
-        The effect the modifier is associated with
-    domain: Text
-        The domain of infleunce of the modifier
-    func: Text
-        The function of the domain
-    modified_attribute_id: Unsgined Integer
-        The attribute modified by the modifier
-    modifying_attribute_id: Unsigned Integer
-        The attrubite doing the modifying by the modifier
-    operation: Signed Integer
-        ???
-    group_id: Unsigned Integer
-        ???
-    skill_type_id: Unsigned Integer
-        ???
-    effect_id: Unsigned Integer
-        ???
-        
-    Relationships
-    -------------
-    parent_effect: DogmaModifier.parent_effect_id <> DogmaEffect.effect_id
-    """
-    
     __tablename__ = 'dogma_Modifier'
     
     ## columns

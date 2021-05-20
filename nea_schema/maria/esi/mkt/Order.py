@@ -34,7 +34,11 @@ class Order(Base):
     type = relationship('Type')
     system = relationship('System')
     region = relationship('Region')
-    corp_order = relationship('CorpOrder', primaryjoin='Order.order_id == foreign(CorpOrder.order_id)', viewonly=True, uselist=False)
+    corp_order = relationship(
+        'CorpOrder',
+        primaryjoin='Order.order_id == foreign(CorpOrder.order_id)',
+        viewonly=True, uselist=False,
+    )
 
     @classmethod
     def esi_parse(cls, esi_return, orm=True):

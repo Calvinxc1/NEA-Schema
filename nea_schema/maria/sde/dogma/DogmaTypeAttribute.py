@@ -7,23 +7,6 @@ from sqlalchemy.dialects.mysql import \
 from ...Base import Base
 
 class DogmaTypeAttribute(Base):
-    """ Schema for the DogpaTypeAttribute table
-    
-    Columns
-    -------
-    type_id: Unsigned Integer, Primary Key
-        The type item that the dogma attribute applies to.
-    attribute_id: Unsigned Integer, Primary Key
-        The attribute that is being applied to the type.
-    value: Signed Float
-        The value being applied to the type's attribute
-        
-    Relationships
-    -------------
-    type: DogmaTypeAttribute.type_id <> Type.type_id
-    attribute: DogmaTypeAttribute.attribute_id <> DogmaAttribute.attribute_id
-    """
-    
     __tablename__ = 'dogma_TypeAttribute'
     
     ## Columns

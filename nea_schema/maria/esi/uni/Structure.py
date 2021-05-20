@@ -27,6 +27,11 @@ class Structure(Base):
     ## Relationships
     system = relationship('System')
     type = relationship('Type')
+    office = relationship(
+        'CorpAsset',
+        primaryjoin='Structure.structure_id == foreign(CorpAsset.location_id)',
+        viewonly=True, uselist=False,
+    )
 
     @classmethod
     def esi_parse(cls, esi_return, orm=True):

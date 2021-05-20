@@ -9,50 +9,6 @@ from sqlalchemy.dialects.mysql import \
 from ...Base import Base
 
 class DogmaAttribute(Base):
-    """ Schema for the DogmaAttribute table
-    
-    Columns
-    -------
-    attribute_id: Unsigned Integer, Primary Key
-        The attribute that is being applied to the type.
-    category_id: Unsigned Integer
-        The id of the category the attribute belongs to.
-    data_type: Unsigned Integer
-        ???
-    defaultValue: Signed Float
-        The default value of the attribute.
-    description: Text
-        The long-form description of the attribute
-    highIsGood: Boolean
-        ???
-    name: Text
-        The short-form name of the attribute
-    published: Boolean
-        The publication status of the attribute
-    stackable: Boolean
-        Is the attribute stackable?
-    display_name: Text
-        Long-form name for the attribute
-    icon_id: Unsigned Integer
-        ???
-    tooltip_description: Text
-        Short description of attribute
-    tooltip_title: Text
-        Short title of the attribute
-    unit_id: Unsigned Integer
-        ???
-    charge_recharge_time_id: Unsgined Integer
-        ???
-    max_attribute_id: Unsigned Integer
-        ???
-    
-        
-    Relationships
-    -------------
-    category: DogmaAttribute.category_id <> DogmaCategory.category_id
-    type_attribute: DogmaAttribute.attribute_id <> DogmaTypeAttribute.attribute_id
-    """
-    
     __tablename__ = 'dogma_Attribute'
     
     ## Columns

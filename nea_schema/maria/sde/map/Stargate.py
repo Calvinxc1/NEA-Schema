@@ -1,7 +1,9 @@
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.dialects.mysql import INTEGER as Integer, DOUBLE as Double, BOOLEAN as Boolean, FLOAT as Float, VARCHAR as VarChar
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.dialects.mysql import \
+    DOUBLE as Double, \
+    INTEGER as Integer
 
 from ...Base import Base
 

@@ -1,7 +1,12 @@
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.dialects.mysql import INTEGER as Integer, DOUBLE as Double, BOOLEAN as Boolean, FLOAT as Float, VARCHAR as VarChar
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.dialects.mysql import \
+    BOOLEAN as Boolean, \
+    DOUBLE as Double, \
+    FLOAT as Float, \
+    INTEGER as Integer, \
+    TINYTEXT as TinyText
 
 from ...Base import Base
 
@@ -18,8 +23,8 @@ class System(Base):
     luminosity = Column(Float(unsigned=True))
     radius = Column(Double(unsigned=False))
     security = Column(Float(unsigned=False))
-    security_class = Column(VarChar(length=2))
-    visual_effect = Column(VarChar(length=25))
+    security_class = Column(TinyText)
+    visual_effect = Column(TinyText)
     border = Column(Boolean)
     corridor = Column(Boolean)
     fringe = Column(Boolean)

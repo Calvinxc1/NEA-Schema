@@ -27,7 +27,11 @@ class CorpBlueprint(Base):
     ## Relationships
     type = relationship('Type')
     blueprint = relationship('Blueprint', viewonly=True)
-    asset = relationship('CorpAsset', primaryjoin='CorpBlueprint.item_id == foreign(CorpAsset.item_id)', viewonly=True, uselist=False)
+    asset = relationship(
+        'CorpAsset',
+        primaryjoin='CorpBlueprint.item_id == foreign(CorpAsset.item_id)',
+        viewonly=True, uselist=False,
+    )
     industry = relationship(
         'CorpIndustry',
         primaryjoin='CorpBlueprint.item_id == foreign(CorpIndustry.blueprint_id)',

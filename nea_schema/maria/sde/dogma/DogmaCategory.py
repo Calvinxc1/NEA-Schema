@@ -7,22 +7,6 @@ from sqlalchemy.dialects.mysql import \
 from ...Base import Base
 
 class DogmaCategory(Base):
-    """ Schema for the DogmaCategory table
-    
-    Columns
-    -------
-    category_id: Unsigned Integer
-        The id for the category
-    description: Text
-        The description of the category
-    name: Text
-        The name of the category
-        
-    Relationships:
-    --------------
-    attribute: DogmaCategory.category_id <> DogmaAttribute.category_id
-    """
-    
     __tablename__ = 'dogma_Category'
     
     ## Columns

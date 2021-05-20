@@ -26,7 +26,7 @@ class CorpOrder(Base):
     order_id = Column(BigInt(unsigned=True), primary_key=True, autoincrement=False)
     price = Column(Double(unsigned=True))
     range = Column(TinyText)
-    region_id = Column(Integer(unsigned=True))
+    region_id = Column(BigInt(unsigned=True))
     state = Column(TinyText)
     type_id = Column(Integer(unsigned=True), ForeignKey('inv_Type.type_id'))
     volume_remain = Column(Integer(unsigned=True))
@@ -35,7 +35,11 @@ class CorpOrder(Base):
     
     ## Relationships
     type = relationship('Type')
-    order = relationship('Order', primaryjoin='CorpOrder.order_id == foreign(Order.order_id)', viewonly=True, uselist=False)
+    order = relationship(
+        'Order',
+        primaryjoin='CorpOrder.order_id == foreign(Order.order_id)',
+        viewonly=True, uselist=False,
+    )
 
     @classmethod
     def esi_parse(cls, esi_return, orm=True):

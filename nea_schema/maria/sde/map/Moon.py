@@ -1,7 +1,11 @@
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.dialects.mysql import INTEGER as Integer, DOUBLE as Double, BOOLEAN as Boolean, FLOAT as Float, VARCHAR as VarChar
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.dialects.mysql import \
+    INTEGER as Integer, \
+    DOUBLE as Double, \
+    BOOLEAN as Boolean, \
+    TINYTEXT as TinyText
 
 from ...Base import Base
 
@@ -27,7 +31,7 @@ class Moon(Base):
     pressure = Column(Double(unsigned=False))
     radius = Column(Double(unsigned=False))
     rotation_rate = Column(Double(unsigned=False))
-    spectral_class = Column(VarChar(length=3))
+    spectral_class = Column(TinyText)
     surface_gravity = Column(Double(unsigned=False))
     temperature = Column(Double(unsigned=False))
     height_map_1 = Column(Integer(unsigned=True))
