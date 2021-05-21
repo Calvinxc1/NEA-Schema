@@ -29,7 +29,10 @@ class Structure(Base):
     type = relationship('Type')
     office = relationship(
         'CorpAsset',
-        primaryjoin='Structure.structure_id == foreign(CorpAsset.location_id)',
+        primaryjoin="""and_(
+            Structure.structure_id == foreign(CorpAsset.location_id),
+            foreign(CorpAsset.location_flag) == 'OfficeFolder',
+        )""",
         viewonly=True, uselist=False,
     )
 

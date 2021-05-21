@@ -34,7 +34,10 @@ class Station(Base):
     type = relationship('Type')
     office = relationship(
         'CorpAsset',
-        primaryjoin='Station.station_id == foreign(CorpAsset.location_id)',
+        primaryjoin="""and_(
+            Station.station_id == foreign(CorpAsset.location_id),
+            foreign(CorpAsset.location_flag) == 'OfficeFolder',
+        )""",
         viewonly=True, uselist=False,
     )
     
