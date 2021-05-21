@@ -37,6 +37,11 @@ class CorpBlueprint(Base):
         primaryjoin='CorpBlueprint.item_id == foreign(CorpIndustry.blueprint_id)',
         viewonly=True, uselist=True,
     )
+    location = relationship(
+        'CorpAsset',
+        primaryjoin='CorpBlueprint.location_id == foreign(CorpAsset.item_id)',
+        viewonly=True, uselist=False,
+    )
 
     @classmethod
     def esi_parse(cls, esi_return, orm=True):
