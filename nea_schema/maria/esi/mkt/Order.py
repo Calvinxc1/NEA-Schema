@@ -43,7 +43,7 @@ class Order(Base):
     @classmethod
     def esi_parse(cls, esi_return, orm=True):
         record_time = dt.strptime(esi_return.headers.get('Last-Modified'), '%a, %d %b %Y %H:%M:%S %Z')
-        region_id = int(esi_return.url.split('/')[-1])\
+        region_id = int(esi_return.url.split('?')[0].split('/')[-1])\
             if esi_return.url.startswith('https://esi.evetech.net/latest/markets/structures')\
             else int(esi_return.url.split('/')[-2])
         record_items = [{
