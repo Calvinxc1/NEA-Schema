@@ -26,7 +26,7 @@ class CorpOrder(Base):
     order_id = Column(BigInt(unsigned=True), primary_key=True, autoincrement=False)
     price = Column(Double(unsigned=True))
     range = Column(TinyText)
-    region_id = Column(BigInt(unsigned=True))
+    region_id = Column(BigInt(unsigned=True), ForeignKey('map_Region.region_id'))
     state = Column(TinyText)
     type_id = Column(Integer(unsigned=True), ForeignKey('inv_Type.type_id'))
     volume_remain = Column(Integer(unsigned=True))
@@ -35,10 +35,20 @@ class CorpOrder(Base):
     
     ## Relationships
     type = relationship('Type')
+    region = relationship('Region')
     order = relationship(
         'Order',
         primaryjoin='CorpOrder.order_id == foreign(Order.order_id)',
         viewonly=True, uselist=False,
+    )
+    compete = relationship(
+        'Order',
+        primaryjoin="""and_(
+            CorpOrder.type_id == foreign(Order.type_id),
+            CorpOrder.region_id == foreign(Order.region_id),
+            CorpOrder.is_buy_order == foreign(Order.is_buy_order),
+            CorpOrder.order_id != foreign(Order.order_id),
+        )""", viewonly=True, uselist=True,
     )
 
     @classmethod
